@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html ng-app="index">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Search Song</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700,900" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.5/css/bootstrap-dialog.min.css" rel="stylesheet" type="text/css" />
+  <link href="css/style.css" rel="stylesheet">
+</head>
+<body ng-controller="indexController">
+
+  <div class="container">
+    <div class="row">
+      <!-- search -->
+      <div class="col-xs-6 col-xs-offset-3">
+            <span class="glyphicon glyphicon-search"></span>
+            <h2>Search Song</h2>
+            <h4>Lyrics search engine</h4>
+            <form id="search-form" ng-submit="search(searchText)" role="search">
+              <div class="input-group">
+                <!-- <label for="search-input">Email address</label> -->
+                <input type="text" ng-model="searchText" class="form-control input-lg" id="search-input" name="keyword" placeholder="" autocomplete="off">
+                <div class="input-group-btn">
+                    <button class="btn btn-lg search-btn btn-primary" type="submit">Search</button>
+                </div>
+              </div>
+              <small class="form-text text-muted">Click <a id="help">here</a> to get help with advanced search</small>
+          </form>
+      </div>
+  </div>
+
+  <div class="container bootstrap snippet" ng-show="searchResults.length > 0">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <h2>
+                        {{searchResults.length}} results found for: <span class="text-navy">"{{keyword}}"</span>
+                    </h2>
+                    <small>Request time  ({{resTime}} seconds)</small>
+                    <div ng-repeat="res in searchResults | orderObjectBy:'freq'">
+                        <div class="hr-line-dashed"></div>
+                        <div class="search-result">
+                            <h3><a href="{{res.link}}" target="_blank">{{res.title}} - {{res.author}}</a></h3>
+                            <p class="search-link">{{res.link}}</p>
+                            <p ng-bind-html="highlight(res.summery,keyword)">{{res.summery}}</p>
+                            <p class="search-date">Uploaded at: {{res.date}}</p>
+                            <small>Frequency: {{res.freq}}</small>
+
+                            <iframe id="{{res.link}}" class="hide-me" ng-src="{{res.link}}"></iframe>
+                            <button class="btn btn-info btn-xs print" ng-click="print(res.link)"><i class="glyphicon  glyphicon-print" aria-hidden="true"></i> Print</button>
+
+                        </div>
+                        <!-- <div class="hr-line-dashed"></div> -->
+                      </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container bootstrap snippet" ng-show="noRes == true">
+  <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <h2>
+                        {{failMsg}}
+                    </h2>
+                </div>
+            </div>
+        </div>
+  </div>
+</div>
+     
+  
+
+  <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.5/js/bootstrap-dialog.min.js"></script>
+  <script src="javascript/indexController.js"></script>
+  <script src="javascript/index.js"></script>
+</body>
+</html>

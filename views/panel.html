@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html ng-app="panel">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Search Song Admin Panel</title>
+   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+  <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.5/css/bootstrap-dialog.min.css" rel="stylesheet" type="text/css" />
+  <link href="css/style.css" rel="stylesheet">
+</head>
+<body ng-controller="panel" class="bodyPanel">
+  <div class="container">
+    <div class="row">
+      <!-- stats -->
+      <div class="col-xs-12">
+        <div class="well" style="overflow-y: hidden;">
+            <h2>General Stats</h2>
+            <div class="col-xs-4"><spen class="statNum">{{numOfDocs}}</spen><h4>Stored Doduments</h4></div>
+            <div class="col-xs-4"><spen class="statNum">{{numOfWords}}</spen><h4>Unique Words</h4></div>
+            <div class="col-xs-4"><spen class="statNum">{{numOfIndex}}</spen><h4>Indexes</h4></div>
+        </div>
+      </div>
+      <!-- upload -->
+      <div class="col-xs-6">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <span class="glyphicon glyphicon-cloud-upload"></span>
+            <h2>File Uploader</h2>
+            <h4>Add files to the Source Folder</h4>
+            <button class="btn btn-lg upload-btn" type="button">Upload</button>
+             <br><small class="form-text text-muted">Click <a id="helpUpload">here</a> to get help</small>
+          </div>
+        </div>
+      </div>
+      <!-- index -->
+      <div class="col-xs-6">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <h2>Start Indexing</h2>
+            <h4>{{numOfFiles}} files in the Source Folder</h4>
+            <button class="btn btn-lg index-btn btn-info {{state}}" id="load" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing..." type="button">Index</button>
+             <br><small class="form-text text-muted">Click <a id="helpIndex">here</a> to get help</small>
+          </div>
+        </div>
+      </div>
+       <!-- delete -->
+      <div class="col-xs-6">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <span class="glyphicon glyphicon glyphicon-eye-close"></span>
+            <h2>Hide Documents</h2>
+            <h4>There are {{liveDocuments.length}} live documents</h4>
+            <form ng-submit="hideDocs()" novalidate>
+              <div ng-repeat="doc in liveDocuments" class="checkbox align-left" >
+                <label><input type="checkbox" checklist-model="selection" checklist-value="doc._id">{{doc.title}} - {{doc.author}}
+                </label>
+              </div>
+              <button class="btn btn-lg index-btn btn-danger" id="hide-btn" type="submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing...">Hide</button>
+               <br><small class="form-text text-muted">Click <a id="helpHide">here</a> to get help</small>
+            </form>
+          </div>
+        </div>
+      </div>
+
+       <!-- retrive -->
+      <div class="col-xs-6">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <span class="glyphicon glyphicon glyphicon-eye-open"></span>
+            <h2>Show Documents</h2>
+            <h4>There are {{hiddenDocuments.length}} hidden documents</h4>
+            <form ng-submit="showDocs()" novalidate>
+              <div ng-repeat="doc in hiddenDocuments" class="checkbox align-left" >
+                <label><input type="checkbox" checklist-model="selection" checklist-value="doc._id">{{doc.title}} - {{doc.author}}
+                </label>
+              </div>
+              <button class="btn btn-lg index-btn btn-success" id="show-btn" type="submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing...">Show</button>
+               <br><small class="form-text text-muted">Click <a id="helpShow">here</a> to get help</small>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <input id="upload-input" type="file" name="uploads[]" multiple="multiple"></br>
+
+  <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.5/js/bootstrap-dialog.min.js"></script>
+  <script src="javascript/panel.js"></script>
+  <script src="javascript/index.js"></script>
+  <script src="javascript/panelController.js"></script>
+  <script src='javascript/checklist-model.js'></script>
+
+
+</body>
+</html>
